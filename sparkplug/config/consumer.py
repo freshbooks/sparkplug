@@ -111,16 +111,25 @@ class ConsumerConfigurer(DependencyConfigurer):
     :param **kwargs: other configuration parameters, which will be
         passed along to the ``use`` callback.
     """
-    def __init__(self, name, use, queue, **kwargs):
+    def __init__(self, name, use, queue, entrypoint=None, **kwargs):
         DependencyConfigurer.__init__(self)
-        self.entry_point = self.parse_use('sparkplug.consumers', use)
+        if use and entrypoint:
+            raise ValueError(
+                'consumer {name}: use and entrypoint are mutually exlusive'.format(name=name)
+            )
+        if use:
+            self.entry_point = self.parse_use('sparkplug.consumers', use)
+        elif entrypoint:
+            module, attr = entrypoint.split(':', 1)
+            self.entry_point = getattr(__import__(module), attr)
+        else:
+            raise ValueError(
+                'consumer {name}: must provide use or entrypoint'.format(name=name)
+            )
         self.queue = queue
-
         self.consumer_params = kwargs
-
         # timerreporters are optional, but calling this is not optional:
         self._init_reporters()
-
         self.depends_on(queue)
 
 
