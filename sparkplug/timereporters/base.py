@@ -1,7 +1,9 @@
 import datetime
 
+
 def _milliseconds(timedelta):
     return timedelta.total_seconds() * 1000
+
 
 class Base(object):
     def __init__(self):

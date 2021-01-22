@@ -25,4 +25,3 @@ class Logger(Base):
 
     def append_wait(self, delta, tags=None):
         self.logger("WAIT TIME: time {}, tags {}".format(delta, tags))
-

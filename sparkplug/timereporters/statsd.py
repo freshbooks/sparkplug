@@ -84,7 +84,7 @@ class _Statsd(Base):
 
     def append_wait(self, delta, tags=None):
         # use "timing" instead of "distribution" because the data is pretty
-        # monotonic: if there's a sudden backlog of messages in a FIFO queue, 
+        # monotonic: if there's a sudden backlog of messages in a FIFO queue,
         # then the timings should be roughly the same, going up a bit at a time..
         # the meaning will be in the values, not the distribution of those values.
         tags = self.tags + (tags or [])
