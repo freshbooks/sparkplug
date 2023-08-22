@@ -92,6 +92,9 @@ def run_sparkplug(
     signal.signal(signal.SIGINT, SignalHandler.signal_handler)
     signal.signal(signal.SIGTERM, SignalHandler.signal_handler)
 
+    with open("/tmp/sparkplug_ready", "a"):
+        pass
+
     try:
         _log.info("Starting sparkplug.")
         connector.run()
